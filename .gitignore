@@ -89,3 +89,7 @@ lerna-debug.log
 # System Files
 .DS_Store
 Thumbs.db
+
+
+#dev container, debido a que estaba trabajando con el remoto
+.devcontainer
