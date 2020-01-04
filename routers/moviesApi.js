@@ -268,7 +268,7 @@ router.get('/search_api', isAuthorized, (req, res) => {
         })
         .catch(error => {
             res.send(error.message + '\n' + error.response.data.error);
-        });_id
+        });
 });
 
 /**
