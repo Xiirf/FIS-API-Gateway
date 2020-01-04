@@ -9,6 +9,46 @@ const api = apiAdapter(BASE_URL);
 
 
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   MovieStatusItem:
+ *     type: object
+ *     required:
+ *       - id_user
+ *       - id_movie
+ *       - status
+ *     properties:
+ *       _id:
+ *         type: string
+ *       id_user:
+ *         type:string
+ *       id_movie:
+ *         type:string
+ *       status:
+ *         type: string           
+ */
+
+/**
+ * paths:
+ *  /movies_status:
+ *    post:
+ *      summary: Añade un movie_status
+ *      operationId: addMoviesStatus
+ *      description: Añade un movie_status
+ *      responses:
+ *        '201':
+ *          description: movie_status creado
+ *        '500':
+ *          description: Error del servidor
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/MovieStatusItem'
+ *        description: movie_status a añadir
+ */
 router.post('/movies_status', isAuthorized, (req, res) => {
     api.post(req.path, req.body)
         .then(resp => {
@@ -19,6 +59,18 @@ router.post('/movies_status', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ *  delete:
+ *    summary: Borra todos los movie_status
+ *    operationId: deleteMoviesStatus
+ *    description: Borra todos los movie_status de todos los usuarios
+ *    responses:
+ *      '200':
+ *        description: todos los movie_status borrado
+ *      '500':
+ *        description: Error del servidor
+ */
 router.delete('/movies_status', isAuthorized, (req, res) => {
     api.delete(req.path, req.body)
         .then(resp => {
@@ -29,6 +81,29 @@ router.delete('/movies_status', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ * paths:
+ *  /movies_status/{_id}:
+ *    parameters:
+ *      - name: _id
+ *        in: path
+ *        required: true
+ *        description: id de mongoDB del movie_status
+ *        schema:
+ *          type: string
+ *    get:
+ *      summary: Muestra un movie_status
+ *      operationId: searchMoviesStatus
+ *      description: Muestra el movie_status mediante el id de mongodb
+ *      responses:
+ *        '200':
+ *          description: movie_status creado
+ *        '404':
+ *          description: movie_status no encontrado
+ *        '500':
+ *          description: Error del servidor
+ */
 router.get('/movies_status/:_id', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
         .then(resp => {
@@ -39,6 +114,26 @@ router.get('/movies_status/:_id', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ *  put:
+ *    summary: Modifica un movie_status
+ *    operationId: updateMoviesStatus
+ *    description: Modifica un movie_status mediante su id
+ *    responses:
+ *      '200':
+ *        description: movie_status creado
+ *      '404':
+ *        description: movie_status no encontrado
+ *      '500':
+ *        description: Error del servidor
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/MovieStatusItem'
+ *      description: movie_status a modificar
+ */
 router.put('/movies_status/:_id', isAuthorized, (req, res) => {
     api.put(req.path, req.body)
         .then(resp => {
@@ -49,6 +144,20 @@ router.put('/movies_status/:_id', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ *  delete:
+ *    summary: Borra un movie_status
+ *    operationId: deleteMoviesStatus
+ *    description: Borra el movie_status mediante su id
+ *    responses:
+ *      '200':
+ *        description: Borra el movie_status
+ *      '404':
+ *        description: movie_status no encontrado
+ *      '500':
+ *        description: Error del servidor
+ */
 router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
     api.delete(req.path, req.body)
         .then(resp => {
@@ -59,6 +168,29 @@ router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ * paths:
+ *  /movies_status/{id_user}:
+ *    parameters:
+ *      - name: id_user
+ *        in: path
+ *        required: true
+ *        description: id del usuario
+ *        schema:
+ *          type: string
+ *    get:
+ *      summary: Muestra los movie_status de un usuario
+ *      operationId: searchMoviesStatusByUser
+ *      description: Muestra el movie_status mediante el id de un usuario
+ *      responses:
+ *        '200':
+ *          description: movie_status creado
+ *        '404':
+ *          description: movie_status no encontrado
+ *        '500':
+ *          description: Error del servidor
+ */
 router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
         .then(resp => {
@@ -69,6 +201,36 @@ router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
         });
 });
 
+
+/**
+ * paths:
+ *  /movies_status/{id_user}/{id_movie}:
+ *    parameters:
+ *      - name: id_user
+ *        in: path
+ *        required: true
+ *        description: id del usuario
+ *        schema:
+ *          type: string
+ *    parameters:
+ *      - name: id_movie
+ *        in: path
+ *        required: true
+ *        description: id de la pelicula
+ *        schema:
+ *          type: string
+ *    get:
+ *      summary: Muestra los movie_status de un usuario
+ *      operationId: searchMoviesStatusByUserAndMovie
+ *      description: Muestra el movie_status mediante el id de un usuario y el id de la pelicula
+ *      responses:
+ *        '200':
+ *          description: movie_status creado
+ *        '404':
+ *          description: movie_status no encontrado
+ *        '500':
+ *          description: Error del servidor
+ */
 router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
         .then(resp => {
@@ -78,6 +240,9 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
             res.send(error.message + '\n' + error.response.data.error);
         });
 });
+
+
+
 
 router.get('/search_api', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
@@ -108,3 +273,24 @@ router.get('/search_api/:_id', isAuthorized, (req, res) => {
             res.send(error.message + '\n' + error.response.data.error);
         });
 });
+
+/**
+ * openapi: 3.0.0
+ * # Added by API Auto Mocking Plugin
+ * servers:
+ * # Added by API Auto Mocking Plugin
+ *  - description: SwaggerHub API Auto Mocking
+ *  url: https://virtserver.swaggerhub.com/MrManoloDG/fis-movieStatus/1.0.0
+ *  - description: fis-movie_status
+ *  url: https://fis-ms-movies.herokuapp.com/api/v1/movies_status
+ * 
+ * info:
+ *  version: "1.0.0"
+ *  title: Movie Status Api
+ *  version: "1.0.0"
+ *  contact:
+ *    email: manueldiazgil96@hotmail.com
+ *  license:
+ *    name: Apache 2.0
+ *    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+ */
