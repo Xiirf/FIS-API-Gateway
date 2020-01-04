@@ -185,7 +185,7 @@ router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
  *      description: Muestra el movie_status mediante el id de un usuario
  *      responses:
  *        '200':
- *          description: movie_status creado
+ *          description: Se muestra los movie_status
  *        '404':
  *          description: movie_status no encontrado
  *        '500':
@@ -225,7 +225,7 @@ router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
  *      description: Muestra el movie_status mediante el id de un usuario y el id de la pelicula
  *      responses:
  *        '200':
- *          description: movie_status creado
+ *          description: Se muestra los movie_status
  *        '404':
  *          description: movie_status no encontrado
  *        '500':
@@ -246,7 +246,20 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
  * paths:
  *   /search_api
  *   parameters:
- *     query:
+ *     -  name: query
+ *        in: request
+ *        required: true
+ *        description: Palabras clave sobre la pelicula
+ * 
+ *    get:
+ *      summary: Devuelve las peliculas titutadas con la query, o las que contengan en el nombre el contenido de la consulta
+ *      operationId: searchMovies
+ *      description: Muestra la información de las peliculas resultantes de la consulta
+ *      responses:
+ *        '200':
+ *          description: Se muestra las peliculas
+ *        '500':
+ *          description: Error del servidor
  */
 router.get('/search_api', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
@@ -255,11 +268,27 @@ router.get('/search_api', isAuthorized, (req, res) => {
         })
         .catch(error => {
             res.send(error.message + '\n' + error.response.data.error);
-        });
+        });_id
 });
 
 /**
+ * paths:
+ *   /search_api
+ *   parameters:
+ *     -  name: _id
+ *        in: request
+ *        required: true
+ *        description: ID de la pelicula
  * 
+ *    get:
+ *      summary: Devuelve la pelicula que coincida con el id
+ *      operationId: searchMovies
+ *      description: Muestra la información de las pelicula
+ *      responses:
+ *        '200':
+ *          description: Se muestra la pelicula
+ *        '500':
+ *          description: Error del servidor
  */
 router.get('/search_api/:_id', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
@@ -274,6 +303,16 @@ router.get('/search_api/:_id', isAuthorized, (req, res) => {
 /**
  * paths:
  *   /search_api/discover
+ *   parameters: Theres a lot in TMDB.
+ *   get:
+ *     summary: Devuelve la película que coincida con el id
+ *     operationId: searchMovies
+ *     description: Muestra la información de las película
+ *     responses:
+ *       '200':
+ *         description: Se muestra la pelicula
+ *       '500':
+ *         description: Error del servidor
  */
 router.get('/search_api/discover', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
