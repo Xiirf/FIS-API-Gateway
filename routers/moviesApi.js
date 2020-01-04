@@ -242,8 +242,12 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
 });
 
 
-
-
+/**
+ * paths:
+ *   /search_api
+ *   parameters:
+ *     query:
+ */
 router.get('/search_api', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
         .then(resp => {
@@ -254,6 +258,23 @@ router.get('/search_api', isAuthorized, (req, res) => {
         });
 });
 
+/**
+ * 
+ */
+router.get('/search_api/:_id', isAuthorized, (req, res) => {
+    api.get(req.path, req.body)
+        .then(resp => {
+            res.send(resp.data);
+        })
+        .catch(error => {
+            res.send(error.message + '\n' + error.response.data.error);
+        });
+});
+
+/**
+ * paths:
+ *   /search_api/discover
+ */
 router.get('/search_api/discover', isAuthorized, (req, res) => {
     api.get(req.path, req.body)
         .then(resp => {
@@ -264,15 +285,7 @@ router.get('/search_api/discover', isAuthorized, (req, res) => {
         });
 });
 
-router.get('/search_api/:_id', isAuthorized, (req, res) => {
-    api.get(req.path, req.body)
-        .then(resp => {
-            res.send(resp.data);
-        })
-        .catch(error => {
-            res.send(error.message + '\n' + error.response.data.error);
-        });
-});
+
 
 /**
  * openapi: 3.0.0
