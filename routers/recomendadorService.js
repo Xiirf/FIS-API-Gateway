@@ -196,9 +196,7 @@ router.get('/aleatorio/series/:number?', (req, res) => {
  *           description: id de la pelicula puntuada
  *           required: true
  *           schema:
- *             minimum: 1
- *             type: integer
- *             format: int64
+ *             type: string
  *         - name: number
  *           in: path
  *           description: 'nombre de peliculas que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
@@ -279,9 +277,7 @@ router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res)
  *           description: id de la serie puntuada
  *           required: true
  *           schema:
- *             minimum: 1
- *             type: integer
- *             format: int64
+ *             type: string
  *         - name: number
  *           in: path
  *           description: 'nombre de series que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
