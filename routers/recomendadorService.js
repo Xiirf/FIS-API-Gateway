@@ -132,6 +132,9 @@ const api = apiAdapter(BASE_URL)
  *                 type: string
  *                 format: base64
  *                 default: 'Unauthorized: No correct token provided'
+ *        '500':
+ *             description: Internal server error
+ *             content: {}
  *      security:
  *        - bearerAuth:
  *          - read
@@ -185,6 +188,9 @@ router.get('/aleatorio/peliculas/:number?', (req, res) => {
  *                   type: string
  *                   format: base64
  *                   default: 'Unauthorized: No correct token provided'
+ *          '500':
+ *             description: Internal server error
+ *             content: {}
  *      security:
  *        - bearerAuth:
  *          - read
