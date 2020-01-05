@@ -324,7 +324,7 @@ router.get('/search_api/discover', isAuthorized, (req, res) => {
         });
 });
 
-
+module.exports = router;
 
 /**
  * openapi: 3.0.0
