@@ -124,6 +124,17 @@ const api = apiAdapter(BASE_URL)
  *                      type: array
  *                      items:
  *                        $ref: '#/components/schemas/pelicula'
+ *        '401':
+ *           description: Unauthorized
+ *           content:
+ *             text/html:
+ *               schema:
+ *                 type: string
+ *                 format: base64
+ *                 default: 'Unauthorized: No correct token provided'
+ *      security:
+ *        - bearerAuth:
+ *          - read
  */
 router.get('/aleatorio/peliculas/:number?', (req, res) => {
   api.get(req.path)
@@ -166,6 +177,17 @@ router.get('/aleatorio/peliculas/:number?', (req, res) => {
  *                        type: array
  *                        items:
  *                          $ref: '#/components/schemas/serie'
+ *          '401':
+ *             description: Unauthorized
+ *             content:
+ *               text/html:
+ *                 schema:
+ *                   type: string
+ *                   format: base64
+ *                   default: 'Unauthorized: No correct token provided'
+ *      security:
+ *        - bearerAuth:
+ *          - read
  */
 router.get('/aleatorio/series/:number?', (req, res) => {
   api.get(req.path)
@@ -196,9 +218,7 @@ router.get('/aleatorio/series/:number?', (req, res) => {
  *           description: id de la pelicula puntuada
  *           required: true
  *           schema:
- *             minimum: 1
- *             type: integer
- *             format: int64
+ *             type: string
  *         - name: number
  *           in: path
  *           description: 'nombre de peliculas que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
@@ -279,9 +299,7 @@ router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res)
  *           description: id de la serie puntuada
  *           required: true
  *           schema:
- *             minimum: 1
- *             type: integer
- *             format: int64
+ *             type: string
  *         - name: number
  *           in: path
  *           description: 'nombre de series que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
