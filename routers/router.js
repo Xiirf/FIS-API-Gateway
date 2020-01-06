@@ -4,7 +4,8 @@ var router = express.Router()
 
 var swaggerDoc = require('./swaggerDoc')
 var authRouter = require('./authService')
-var movieRouter = require('./moviesApi')
+var movieRouter = require('./reviewService')
+var reviewRouter = require('./moviesApi')
 var recomendadorRouter = require('./recomendadorService')
 
 router.use((req, res, next) => {
@@ -14,6 +15,7 @@ router.use((req, res, next) => {
 
 router.use(authRouter)
 router.use(movieRouter)
+router.use(reviewRouter)
 router.use(recomendadorRouter)
 router.use(swaggerDoc)
 
