@@ -43,6 +43,8 @@ const options = {
     },
     apis: [
         "./routers/authService.js",
+        "./routers/moviesApi.js",
+        "./routers/reviewService.js",
         "./routers/recomendadorService.js"
     ],        
   };
