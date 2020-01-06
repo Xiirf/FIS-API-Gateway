@@ -21,11 +21,9 @@ const api = apiAdapter(BASE_URL)
  *          id:
  *            type: string
  *            readOnly: true
- *            format: uuid
  *            example: d290f1ee-6c54-4b01-90e6-d701748f0851
  *          imdbId:
  *            type: string
- *            format: uuid
  *            example: tt0903747
  *          rating:
  *            type: number
@@ -100,7 +98,6 @@ const api = apiAdapter(BASE_URL)
  *         required: false
  *         schema:
  *           type: string
- *           format: uuid
  *       - in: query
  *         name: user
  *         description: pass an optional username to get the reviews of that user.
@@ -135,7 +132,7 @@ const api = apiAdapter(BASE_URL)
  *         description: bad input parameter
  */
 router.get('/reviews', (req, res) => {
-  api.get(req.path, req.body)
+  api.get(req._parsedUrl.path, req.body)
   .then(resp => {
     res.send(resp.data)
   })
@@ -285,7 +282,6 @@ router.delete('/user', isAuthorized, (req, res) => {
  *           description: 'Id of the review that you want to calculate the rate'
  *           required: true
  *           schema:
- *             format: uuid
  *             type: string
  *       responses:
  *         "200":
