@@ -139,8 +139,8 @@ const api = apiAdapter(BASE_URL)
  *        - bearerAuth:
  *          - read
  */
-router.get('/aleatorio/peliculas/:number?', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+router.get('/aleatorio/peliculas', isAuthorized, (req, res) => {
+    api.get(req._parsedUrl.path, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
@@ -195,8 +195,8 @@ router.get('/aleatorio/peliculas/:number?', isAuthorized, (req, res) => {
  *        - bearerAuth:
  *          - read
  */
-router.get('/aleatorio/series/:number?', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+router.get('/aleatorio/series', isAuthorized, (req, res) => {
+  api.get(req._parsedUrl.path, req.body, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })

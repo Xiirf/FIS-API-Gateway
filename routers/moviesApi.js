@@ -306,7 +306,7 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
  *          description: Error del servidor
  */
 router.get('/search_api', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+    api.get(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -368,7 +368,7 @@ router.get('/search_api/:_id', isAuthorized, (req, res) => {
  *           description: Error del servidor
  */
 router.get('/search_api/discover', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+    api.get(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
