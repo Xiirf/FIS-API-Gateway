@@ -196,7 +196,7 @@ router.get('/aleatorio/peliculas', isAuthorized, (req, res) => {
  *          - read
  */
 router.get('/aleatorio/series', isAuthorized, (req, res) => {
-  api.get(req._parsedUrl.path, req.body, getConfig(req))
+  api.get(req._parsedUrl.path, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
