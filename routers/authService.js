@@ -58,10 +58,10 @@ const api = apiAdapter(BASE_URL)
 router.post('/user', (req, res) => {
   api.post(req.path, req.body)
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
@@ -114,10 +114,10 @@ router.post('/user', (req, res) => {
 router.post('/authenticate', (req, res) => {
   api.post(req.path, req.body)
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
@@ -153,10 +153,10 @@ router.post('/authenticate', (req, res) => {
 router.post('/user/forgottenPassword', (req, res) => {
   api.post(req.path, req.body)
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
@@ -192,10 +192,10 @@ router.post('/user/forgottenPassword', (req, res) => {
 router.get('/users', isAuthorized, (req, res) => {
   api.get(req.path, getConfig(req))
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
@@ -231,10 +231,10 @@ router.get('/users', isAuthorized, (req, res) => {
 router.get('/user', isAuthorized, (req, res) => {
   api.get(req.path, getConfig(req))
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
@@ -256,10 +256,10 @@ router.get('/user', isAuthorized, (req, res) => {
 router.get('/checkToken', isAuthorized, (req, res) => {
   api.get(req.path, getConfig(req))
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message)
+    res.status(error.response.status).send(error.message)
   })
 })
 
@@ -300,15 +300,14 @@ router.get('/checkToken', isAuthorized, (req, res) => {
 router.put('/user', isAuthorized, (req, res) => {
   api.put(req.path, req.body, getConfig(req))
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
     if(!error.response.data.error){
-      res.send(error.message)
+      res.status(error.response.status).send(error.message)
     }else {
-      res.send(error.message + '\n' + error.response.data.error)
+      res.status(error.response.status).send({error : error.response.data.error})
     }
-    
   })
 })
 
@@ -336,10 +335,10 @@ router.put('/user', isAuthorized, (req, res) => {
 router.delete('/user', isAuthorized, (req, res) => {
   api.delete(req.path, getConfig(req))
   .then(resp => {
-    res.send(resp.data)
+    res.status(resp.status).send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.status(error.response.status).send({error : error.response.data.error})
   })
 })
 
