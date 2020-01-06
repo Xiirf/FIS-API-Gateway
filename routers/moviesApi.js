@@ -289,20 +289,16 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
  *    get:
  *      tags:
  *       - Search
- *      summary: 'Devuelve las peliculas titutadas con la query, o el id, o las que contengan en el nombre el contenido de la consulta'
+ *      summary: 'Devuelve las peliculas titutadas con la query, o las que contengan en el nombre el contenido de la consulta'
  *      operationId: searchMoviesWithQuery
  *      description: Muestra la información de las peliculas resultantes de la consulta
  *      parameters:
  *        - name: query
  *          in: request
- *          required: false
+ *          required: true
  *          description: Palabras clave sobre la pelicula
  *          schema:
  *            type: string
- *        - name: _id
- *          in: request
- *          required: false
- *          description: ID de la pelicula
  *      responses:
  *        '200':
  *          description: Se muestra las peliculas
@@ -359,7 +355,7 @@ router.get('/search_api/:_id', isAuthorized, (req, res) => {
  *       - Search
  *       summary: Devuelve la película que coincida con el id
  *       operationId: searchMovies
- *       description: Muestra la información de las película
+ *       description: Muestra la información de la película
  *       parameters:
  *        - name: _id
  *          in: request
