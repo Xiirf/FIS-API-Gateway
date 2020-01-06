@@ -282,7 +282,10 @@ router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res)
     res.send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    if(error.response.status == 417)
+      res.send(error.response.data)
+    else
+      res.send(error.message + '\n' + error.response.data.error)
   })
 })
 
@@ -363,7 +366,10 @@ router.get('/porSimilitudes/serie/:serieId/:number?', isAuthorized, (req, res) =
     res.send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    if(error.response.status == 417)
+      res.send(error.response.data)
+    else
+      res.send(error.message + '\n' + error.response.data.error)
   })
 })
 
