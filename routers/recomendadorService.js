@@ -95,7 +95,7 @@ const api = apiAdapter(BASE_URL)
 /**
  * @swagger
  * path:
- *  '/aleatorio/peliculas/{number}':
+ *  '/aleatorio/peliculas':
  *    get:
  *      tags:
  *        - aleatorio
@@ -104,9 +104,9 @@ const api = apiAdapter(BASE_URL)
  *      operationId: getAleatorioPeliculas
  *      parameters:
  *        - name: number
- *          in: path
- *          description: 'nombre de peliculas que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
- *          required: true
+ *          in: query
+ *          description: 'nombre de peliculas que recomendar (optional, 20 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
+ *          required: false
  *          schema:
  *            minimum: 1
  *            type: integer
@@ -152,7 +152,7 @@ router.get('/aleatorio/peliculas/:number?', (req, res) => {
 /**
  * @swagger
  * path:
- *   '/aleatorio/series/{number}':
+ *   '/aleatorio/series':
  *      get:
  *        tags:
  *          - aleatorio
@@ -161,9 +161,9 @@ router.get('/aleatorio/peliculas/:number?', (req, res) => {
  *        operationId: getAleatorioSeries
  *        parameters:
  *          - name: number
- *            in: path
- *            description: 'nombre de series que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
- *            required: true
+ *            in: query
+ *            description: 'nombre de series que recomendar (optional, 20 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
+ *            required: false
  *            schema:
  *              type: integer
  *              format: int64
