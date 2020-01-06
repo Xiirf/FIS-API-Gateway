@@ -99,17 +99,14 @@ const api = apiAdapter(BASE_URL)
  *         description: pass an optional IMDb ID to get the reviews of that resource. Like a movie or TV show.
  *         required: false
  *         schema:
- *           type: integer
- *           format: int32
- *           minimum: 0
+ *           type: string
+ *           format: uuid
  *       - in: query
  *         name: user
  *         description: pass an optional username to get the reviews of that user.
  *         required: false
  *         schema:
- *           type: integer
- *           format: int32
- *           minimum: 0
+ *           type: string
  *       - in: query
  *         name: skip
  *         description: number of records to skip for pagination
@@ -288,6 +285,7 @@ router.delete('/user', isAuthorized, (req, res) => {
  *           description: 'Id of the review that you want to calculate the rate'
  *           required: true
  *           schema:
+ *             format: uuid
  *             type: string
  *       responses:
  *         "200":
