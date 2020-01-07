@@ -53,7 +53,7 @@ const api = apiAdapter(BASE_URL);
  *        description: movie_status a añadir
  */
 router.post('/movies_status', isAuthorized, (req, res) => {
-    api.post(req.path, getConfig(req))
+    api.post(req.path, req.body, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -116,13 +116,17 @@ router.delete('/movies_status', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+    api.get(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
         .catch(error => {
-            res.status(error.response.status).send({error : error.response.data.error});
-        });
+            if(!error.response.data.error){
+                res.send(error.message)
+            } else {
+                res.status(error.response.status).send({error : error.response.data.error})
+            }
+        })
 });
 
 
@@ -158,7 +162,7 @@ router.get('/movies_status/:_id', isAuthorized, (req, res) => {
  *        description: movie_status a modificar
  */
 router.put('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.put(req.path, getConfig(req))
+    api.put(req._parsedUrl.path, req.body, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -194,7 +198,7 @@ router.put('/movies_status/:_id', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.delete(req.path, getConfig(req))
+    api.delete(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -230,13 +234,17 @@ router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+    api.get(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
         .catch(error => {
-            res.status(error.response.status).send({error : error.response.data.error});
-        });
+            if(!error.response.data.error){
+                res.send(error.message)
+            } else {
+                res.status(error.response.status).send({error : error.response.data.error})
+            }
+        })
 });
 
 
@@ -271,8 +279,8 @@ router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
  *        '500':
  *          description: Error del servidor
  */
-router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+router.get('/movies_status/:_id_user/:_id_movie', isAuthorized, (req, res) => {
+    api.get(req._parsedUrl.path, getConfig(req))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -305,8 +313,8 @@ router.get('/movies_status/user/:_id_user/:_id_movie', isAuthorized, (req, res) 
  *        '500':
  *          description: Error del servidor
  */
-router.get('/search_api', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+router.get('/search_api', (req, res) => {
+    api.get(req._parsedUrl.path, req.body)
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -336,8 +344,8 @@ router.get('/search_api', isAuthorized, (req, res) => {
  *        '500':
  *          description: Error del servidor
  */
-router.get('/search_api/:_id', isAuthorized, (req, res) => {
-    api.get(req.path, getConfig(req))
+router.get('/search_api/:_id', (req, res) => {
+    api.get(req._parsedUrl.path, req.body)
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -367,8 +375,8 @@ router.get('/search_api/:_id', isAuthorized, (req, res) => {
  *         '500':
  *           description: Error del servidor
  */
-router.get('/search_api/discover', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+router.get('/search_api/discover', (req, res) => {
+    api.get(req._parsedUrl.path, req.body)
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -376,5 +384,14 @@ router.get('/search_api/discover', isAuthorized, (req, res) => {
             res.status(error.response.status).send({error : error.response.data.error});
         });
 });
+
+
+function getConfig(req) {
+    return {
+      headers: {
+        Authorization: req.headers['authorization']
+      }
+    };
+}
 
 module.exports = router;
