@@ -208,7 +208,7 @@ router.get('/aleatorio/series', isAuthorized, (req, res) => {
 /**
  * @swagger
  * path:
- *  '/porSimilitudes/pelicula/{filmId}/{number}':
+ *  '/porSimilitudes/pelicula/{filmId}':
  *     get:
  *       tags:
  *         - similitudes
@@ -292,7 +292,7 @@ router.get('/porSimilitudes/pelicula/:filmId', isAuthorized, (req, res) => {
 /**
  * @swagger
  * path:
- *  '/porSimilitudes/serie/{serieId}/{number}':
+ *  '/porSimilitudes/serie/{serieId}':
  *     get:
  *       tags:
  *         - similitudes
@@ -485,7 +485,7 @@ router.get('/listaNegra/series', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-  api.post(req.path, getConfig(req))
+  api.post(req.path, req.body, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
@@ -530,7 +530,7 @@ router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
-  api.post(req.path, getConfig(req))
+  api.post(req.path, req.body, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
