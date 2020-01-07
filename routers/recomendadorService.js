@@ -226,9 +226,9 @@ router.get('/aleatorio/series', isAuthorized, (req, res) => {
  *           schema:
  *             type: string
  *         - name: number
- *           in: path
+ *           in: query
  *           description: 'nombre de peliculas que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
- *           required: true
+ *           required: false
  *           schema:
  *             minimum: 1
  *             type: integer
@@ -276,8 +276,8 @@ router.get('/aleatorio/series', isAuthorized, (req, res) => {
  *         - bearerAuth:
  *             - read
  */
-router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+router.get('/porSimilitudes/pelicula/:filmId', isAuthorized, (req, res) => {
+  api.get(req._parsedUrl.path, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
@@ -310,9 +310,9 @@ router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res)
  *           schema:
  *             type: string
  *         - name: number
- *           in: path
+ *           in: query
  *           description: 'nombre de series que recomendar (optional, 5 por defecto). Si se recommando menos de 1, se devuelve una lista vacía'
- *           required: true
+ *           required: false
  *           schema:
  *             minimum: 1
  *             type: integer
@@ -360,8 +360,8 @@ router.get('/porSimilitudes/pelicula/:filmId/:number?', isAuthorized, (req, res)
  *         - bearerAuth:
  *             - read
  */
-router.get('/porSimilitudes/serie/:serieId/:number?', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+router.get('/porSimilitudes/serie/:serieId', isAuthorized, (req, res) => {
+  api.get(req._parsedUrl.path, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
@@ -485,7 +485,7 @@ router.get('/listaNegra/series', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-  api.post(req.path, req.body, getConfig(req))
+  api.post(req.path, getConfig(req))
   .then(resp => {
     res.send(resp.data)
   })
@@ -535,7 +535,7 @@ router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
     res.send(resp.data)
   })
   .catch(error => {
-    res.send(error.message + '\n' + error.response.data.error)
+    res.send(error.message)
   })
 })
 
@@ -572,7 +572,7 @@ router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
  *             - read
  */
 router.delete('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-    api.delete(req.path, req.body, getConfig(req))
+    api.delete(req.path, getConfig(req))
     .then(resp => {
       res.send(resp.data)
     })
