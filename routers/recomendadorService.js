@@ -88,6 +88,8 @@ const api = apiAdapter(BASE_URL)
  *          properties:
  *            idTmdb:
  *              type: integer
+ *            name:
+ *              type: string
  *            idUsuario:
  *              type: string
  */
