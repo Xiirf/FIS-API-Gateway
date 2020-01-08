@@ -4,7 +4,7 @@ const apiAdapter = require('./apiAdapter')
 const isAuthorized = require('../controller/requestAuthenticator.js')
 
 const BASE_URL = 'http://fis-api-gateway.herokuapp.com/v1'
-const api = apiAdapter(BASE_URL)
+const request = apiAdapter(BASE_URL, "REVIEW")
 
 /**
  * @swagger
@@ -132,7 +132,7 @@ const api = apiAdapter(BASE_URL)
  *         description: bad input parameter
  */
 router.get('/reviews', (req, res) => {
-  api.get(req._parsedUrl.path, req.body)
+  request(req._parsedUrl.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -170,7 +170,7 @@ router.get('/reviews', (req, res) => {
  *        description: Review to create
  */
 router.post('/reviews', isAuthorized, (req, res) => {
-  api.post(req.path, req.body, getConfig(req))
+  request(req.path, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -215,7 +215,7 @@ router.post('/reviews', isAuthorized, (req, res) => {
  *        description: Inventory item to add
  */
 router.put('/reviews', isAuthorized, (req, res) => {
-  api.put(req.path, req.body, getConfig(req))
+  request(req.path, getConfig(req, "PUT"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -254,9 +254,7 @@ router.put('/reviews', isAuthorized, (req, res) => {
  *          description: Don't have access to that review
  */
 router.delete('/reviews', (req, res) => {
-  console.log(req.body, req.path);
-  console.log(getConfig(req));
-  api.delete(req.path,{ data: req.body, headers: getConfig(req).headers})
+  request(req.path, getConfig(req, "DELETE"))
   .then(resp => {
     console.log("Entra en el ")
     res.send(resp.data)
@@ -295,7 +293,7 @@ router.delete('/reviews', (req, res) => {
  *           description: 'Internal error'
  */
 router.get('/ratings/:imdbId', (req, res) => {
-  api.get(req.path, req.body)
+  request(req.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -333,7 +331,7 @@ router.get('/ratings/:imdbId', (req, res) => {
  *        description: Inventory item to add
  */
 router.post('/impressions', isAuthorized, (req, res) => {
-  api.post(req.path, req.body, getConfig(req))
+  request(req.path, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -346,14 +344,14 @@ router.post('/impressions', isAuthorized, (req, res) => {
   })
 })
 
-function getConfig(req) {
-  return {
-    headers: {
-      Authorization: req.headers['authorization']
-    }
-  };
+function getConfig(req, method = "GET") {
+  var config = {};
+  config.method = method;
+  if(req.headers['authorization'])
+    config.headers = { Authorization: req.headers['authorization'] }
+  if(req.body)
+    config.data = req.body;  
+  return config;
 }
-
-
 
 module.exports = router
