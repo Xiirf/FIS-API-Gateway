@@ -253,7 +253,7 @@ router.put('/reviews', isAuthorized, (req, res) => {
  *        '401':
  *          description: Don't have access to that review
  */
-router.delete('/user', isAuthorized, (req, res) => {
+router.delete('/reviews', isAuthorized, (req, res) => {
   api.delete(req.path, req.body, getConfig(req))
   .then(resp => {
     res.send(resp.data)
