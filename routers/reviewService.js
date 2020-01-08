@@ -3,7 +3,7 @@ var router = express.Router()
 const apiAdapter = require('./apiAdapter')
 const isAuthorized = require('../controller/requestAuthenticator.js')
 
-const BASE_URL = 'http://reviews-api.herokuapp.com/v1'
+const BASE_URL = 'http://fis-api-gateway.herokuapp.com/v1'
 const api = apiAdapter(BASE_URL)
 
 /**
@@ -231,7 +231,7 @@ router.put('/reviews', isAuthorized, (req, res) => {
 /**
  * @swagger
  * path:
- *  /reviews/{reviewId}:
+ *  /reviews:
  *    delete:
  *      tags:
  *        - Reviews
@@ -253,9 +253,12 @@ router.put('/reviews', isAuthorized, (req, res) => {
  *        '401':
  *          description: Don't have access to that review
  */
-router.delete('/reviews', isAuthorized, (req, res) => {
-  api.delete(req.path, req.body, getConfig(req))
+router.delete('/reviews', (req, res) => {
+  console.log(req.body, req.path);
+  console.log(getConfig(req));
+  api.delete(req.path,{ data: req.body, headers: getConfig(req).headers})
   .then(resp => {
+    console.log("Entra en el ")
     res.send(resp.data)
   })
   .catch(error => {
@@ -270,7 +273,7 @@ router.delete('/reviews', isAuthorized, (req, res) => {
 /**
  * @swagger
  * path:
- *   '/ratings/{imdbId}':
+ *   '/ratings':
  *     get:
  *       summary: Returns the average rate of reviews of this movie
  *       tags: [Ratings]
