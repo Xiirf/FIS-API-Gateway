@@ -5,7 +5,7 @@ const apiAdapter = require('./apiAdapter');
 const isAuthorized = require('../controller/requestAuthenticator.js');
 
 const BASE_URL = 'https://fis-ms-movies.herokuapp.com/api/v1';
-const api = apiAdapter(BASE_URL);
+const request = apiAdapter(BASE_URL, "MOVIES");
 
 
 
@@ -53,7 +53,7 @@ const api = apiAdapter(BASE_URL);
  *        description: movie_status a añadir
  */
 router.post('/movies_status', isAuthorized, (req, res) => {
-    api.post(req.path, req.body, getConfig(req))
+    request(req.path, req.body, getConfig(req, "POST"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -80,7 +80,7 @@ router.post('/movies_status', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.delete('/movies_status', isAuthorized, (req, res) => {
-    api.delete(req.path, getConfig(req))
+    request(req.path, getConfig(req, "DELETE"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -116,7 +116,7 @@ router.delete('/movies_status', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -162,7 +162,7 @@ router.get('/movies_status/:_id', isAuthorized, (req, res) => {
  *        description: movie_status a modificar
  */
 router.put('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.put(req._parsedUrl.path, req.body, getConfig(req))
+    request(req._parsedUrl.path, req.body, getConfig(req, "PUT"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -198,7 +198,7 @@ router.put('/movies_status/:_id', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
-    api.delete(req._parsedUrl.path, getConfig(req))
+    request(req._parsedUrl.path, getConfig(req, "DELETE"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -234,7 +234,7 @@ router.delete('/movies_status/:_id', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -280,7 +280,7 @@ router.get('/movies_status/user/:_id', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/movies_status/:_id_user/:_id_movie', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -314,7 +314,7 @@ router.get('/movies_status/:_id_user/:_id_movie', isAuthorized, (req, res) => {
  *          description: Error del servidor
  */
 router.get('/search_api', (req, res) => {
-    api.get(req._parsedUrl.path, req.body)
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -345,7 +345,7 @@ router.get('/search_api', (req, res) => {
  *          description: Error del servidor
  */
 router.get('/search_api/:_id', (req, res) => {
-    api.get(req._parsedUrl.path, req.body)
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -376,7 +376,7 @@ router.get('/search_api/:_id', (req, res) => {
  *           description: Error del servidor
  */
 router.get('/search_api/discover', (req, res) => {
-    api.get(req._parsedUrl.path, req.body)
+    request(req._parsedUrl.path, getConfig(req, "GET"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -386,12 +386,14 @@ router.get('/search_api/discover', (req, res) => {
 });
 
 
-function getConfig(req) {
-    return {
-      headers: {
-        Authorization: req.headers['authorization']
-      }
-    };
-}
+function getConfig(req, method = "GET") {
+    var config = {};
+    config.method = method;
+    if(req.headers['authorization'])
+      config.headers = { Authorization: req.headers['authorization'] }
+    if(req.body)
+      config.data = req.body;  
+    return config;
+  }
 
 module.exports = router;

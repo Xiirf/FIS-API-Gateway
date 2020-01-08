@@ -4,7 +4,7 @@ const apiAdapter = require('./apiAdapter')
 const isAuthorized = require('../controller/requestAuthenticator.js')
 
 const BASE_URL = 'https://recomendador-fis1920.herokuapp.com/recomendador/v1'
-const api = apiAdapter(BASE_URL)
+const request = apiAdapter(BASE_URL, "RECOMENDADOR")
 
 /**
  * @swagger
@@ -140,7 +140,7 @@ const api = apiAdapter(BASE_URL)
  *          - read
  */
 router.get('/aleatorio/peliculas', isAuthorized, (req, res) => {
-    api.get(req._parsedUrl.path, getConfig(req))
+    request(req._parsedUrl.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -196,7 +196,7 @@ router.get('/aleatorio/peliculas', isAuthorized, (req, res) => {
  *          - read
  */
 router.get('/aleatorio/series', isAuthorized, (req, res) => {
-  api.get(req._parsedUrl.path, getConfig(req))
+  request(req._parsedUrl.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -277,7 +277,7 @@ router.get('/aleatorio/series', isAuthorized, (req, res) => {
  *             - read
  */
 router.get('/porSimilitudes/pelicula/:filmId', isAuthorized, (req, res) => {
-  api.get(req._parsedUrl.path, getConfig(req))
+  request(req._parsedUrl.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -361,7 +361,7 @@ router.get('/porSimilitudes/pelicula/:filmId', isAuthorized, (req, res) => {
  *             - read
  */
 router.get('/porSimilitudes/serie/:serieId', isAuthorized, (req, res) => {
-  api.get(req._parsedUrl.path, getConfig(req))
+  request(req._parsedUrl.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -402,7 +402,7 @@ router.get('/porSimilitudes/serie/:serieId', isAuthorized, (req, res) => {
  *             - read
  */
 router.get('/listaNegra/peliculas', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+  request(req.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -440,7 +440,7 @@ router.get('/listaNegra/peliculas', isAuthorized, (req, res) => {
  *             - read 
  */
 router.get('/listaNegra/series', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+  request(req.path, getConfig(req, "GET"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -485,7 +485,7 @@ router.get('/listaNegra/series', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-  api.post(req.path, req.body, getConfig(req))
+  request(req.path, req.body, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -530,7 +530,7 @@ router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
-  api.post(req.path, req.body, getConfig(req))
+  request(req.path, req.body, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -572,7 +572,7 @@ router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
  *             - read
  */
 router.delete('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-    api.delete(req.path, getConfig(req))
+    request(req.path, getConfig(req, "DELETE"))
     .then(resp => {
       res.send(resp.data)
     })
@@ -614,7 +614,7 @@ router.delete('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
  *           - read
 */
 router.delete('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
-    api.delete(req.path, getConfig(req))
+    request(req.path, getConfig(req, "DELETE"))
     .then(resp => {
         res.send(resp.data)
     })
@@ -624,12 +624,14 @@ router.delete('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
 })
   
 
-function getConfig(req) {
-  return {
-    headers: {
-      Authorization: req.headers['authorization']
-    }
-  };
+function getConfig(req, method = "GET") {
+  var config = {};
+  config.method = method;
+  if(req.headers['authorization'])
+    config.headers = { Authorization: req.headers['authorization'] }
+  if(req.body)
+    config.data = req.body;  
+  return config;
 }
 
 module.exports = router
