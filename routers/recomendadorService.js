@@ -485,7 +485,7 @@ router.get('/listaNegra/series', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
-  request(req.path, req.body, getConfig(req, "POST"))
+  request(req.path, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
@@ -530,7 +530,7 @@ router.post('/listaNegra/pelicula/:peliculaId', isAuthorized, (req, res) => {
  *             - read
  */
 router.post('/listaNegra/serie/:serieId', isAuthorized, (req, res) => {
-  request(req.path, req.body, getConfig(req, "POST"))
+  request(req.path, getConfig(req, "POST"))
   .then(resp => {
     res.send(resp.data)
   })
