@@ -3,7 +3,7 @@ var router = express.Router()
 const apiAdapter = require('./apiAdapter')
 const isAuthorized = require('../controller/requestAuthenticator.js')
 
-const BASE_URL = 'http://fis-api-gateway.herokuapp.com/v1'
+const BASE_URL = 'http://reviews-api.herokuapp.com/v1'
 const request = apiAdapter(BASE_URL, "REVIEW")
 
 /**
