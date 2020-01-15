@@ -53,7 +53,7 @@ const request = apiAdapter(BASE_URL, "MOVIES");
  *        description: movie_status a añadir
  */
 router.post('/movies_status', isAuthorized, (req, res) => {
-    request(req.path, req.body, getConfig(req, "POST"))
+    request(req.path, getConfig(req, "POST"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
@@ -162,7 +162,7 @@ router.get('/movies_status/:_id', isAuthorized, (req, res) => {
  *        description: movie_status a modificar
  */
 router.put('/movies_status/:_id', isAuthorized, (req, res) => {
-    request(req._parsedUrl.path, req.body, getConfig(req, "PUT"))
+    request(req._parsedUrl.path, getConfig(req, "PUT"))
         .then(resp => {
             res.status(resp.status).send(resp.data);
         })
