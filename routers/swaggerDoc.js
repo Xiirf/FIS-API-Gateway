@@ -37,7 +37,7 @@ const options = {
       }],
       servers: [
         {
-          url: process.env.urlApp
+          url: process.env.urlApp || "http://127.0.0.1:3005/api/v1"
         }
       ]
     },

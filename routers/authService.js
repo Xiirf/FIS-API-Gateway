@@ -4,7 +4,7 @@ const apiAdapter = require('./apiAdapter')
 const isAuthorized = require('../controller/requestAuthenticator.js')
 
 const BASE_URL = 'https://fis-backend-login.herokuapp.com/api/v1'
-const api = apiAdapter(BASE_URL)
+const request = apiAdapter(BASE_URL, "AUTH");
 
 /**
  * @swagger
@@ -56,7 +56,7 @@ const api = apiAdapter(BASE_URL)
  *          description: Login or email already used
  */
 router.post('/user', (req, res) => {
-  api.post(req.path, req.body)
+  request(req.path, getConfig(req, 'POST'))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -112,7 +112,7 @@ router.post('/user', (req, res) => {
  *          description: Server error
  */
 router.post('/authenticate', (req, res) => {
-  api.post(req.path, req.body)
+  request(req.path, getConfig(req, 'POST'))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -151,7 +151,7 @@ router.post('/authenticate', (req, res) => {
  *          description: Internal error
  */
 router.post('/user/forgottenPassword', (req, res) => {
-  api.post(req.path, req.body)
+  request(req.path, getConfig(req, 'POST'))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -190,7 +190,7 @@ router.post('/user/forgottenPassword', (req, res) => {
  *          description: Internal error
  */
 router.get('/users', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+  request(req.path, getConfig(req))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -229,7 +229,7 @@ router.get('/users', isAuthorized, (req, res) => {
  *          description: Internal error
  */
 router.get('/user', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+  request(req.path, getConfig(req))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -254,7 +254,7 @@ router.get('/user', isAuthorized, (req, res) => {
  *          description: Internal error
  */
 router.get('/checkToken', isAuthorized, (req, res) => {
-  api.get(req.path, getConfig(req))
+  request(req.path, getConfig(req))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -298,7 +298,7 @@ router.get('/checkToken', isAuthorized, (req, res) => {
  *          description: Server error
  */
 router.put('/user', isAuthorized, (req, res) => {
-  api.put(req.path, req.body, getConfig(req))
+  request(req.path, getConfig(req, 'PUT'))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -333,7 +333,7 @@ router.put('/user', isAuthorized, (req, res) => {
  *          description: Internal error
  */
 router.delete('/user', isAuthorized, (req, res) => {
-  api.delete(req.path, getConfig(req))
+  request(req.path, getConfig(req, 'DELETE'))
   .then(resp => {
     res.status(resp.status).send(resp.data)
   })
@@ -342,14 +342,14 @@ router.delete('/user', isAuthorized, (req, res) => {
   })
 })
 
-function getConfig(req) {
-  return {
-    headers: {
-      Authorization: req.headers['authorization']
-    }
-  };
+function getConfig(req, method = "GET") {
+  var config = {};
+  config.method = method;
+  if(req.headers['authorization'])
+    config.headers = { Authorization: req.headers['authorization'] }
+  if(req.body)
+    config.data = req.body;  
+  return config;
 }
-
-
 
 module.exports = router
